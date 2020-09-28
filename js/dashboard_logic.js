@@ -19,40 +19,61 @@ window.onload = function(){
 		canvas.setAttribute("style","height: 300px; width: 100%;");
 		document.getElementById("start").appendChild(canvas);
 	}
-	var chartDataObjArr = new Array();
-	var chartDataObj = new Object();
+	var chartDataArr = new Array();
+	var chartLabelArr = new Array();
 
 	for(let i=0;i<dataObj.init_obj.queCount;i++)
 	{
+		var tempDataArr = new Array();
+		var tempLabelArr = new Array();
 		for(let j = 0;j<dataObj.init_obj.no_option_arr[i];j++)
 		{
-			chartDataObj.y = dataObj.userAnswers[i][j].toString();
-			chartDataObj.indexLabel = dataObj.init_obj.qa[i][1+j];0
+			tempDataArr.push(dataObj.userAnswers[i][j].toString());
+			tempLabelArr.push(dataObj.init_obj.qa[i][1+j]);
 		}
-		chartDataObjArr.push(chartDataObj);
+		chartDataArr.push(tempDataArr);
+		chartLabelArr.push(tempLabelArr);
 	}
 
 	for(let i=0;i<dataObj.init_obj.queCount;i++)
 	{	
-		var chart = new CanvasJS.Chart("chartContainer" + (i+1).toString(),
+		var ctx = document.getElementById("chartContainer" + (i+1).toString()).getContext('2d');
+		var mychart = new Chart(ctx,
 		{
-			title:{
-				text: ("Q" + (i+1).toString())
-			},
-			legend: {
-				maxWidth: 350,
-				itemWidth: 120
-			},
-			data: [
+			type : "pie",
+			data : 
 			{
-				type: "pie",
-				showInLegend: true,
-				legendText: "{indexLabel}",
-				dataPoints: chartDataObjArr
-			}
-			]
+				labels : chartLabelArr[i],
+				datasets : [{
+				
+					data : chartDataArr[i],
+		            backgroundColor: [
+		                'rgba(255, 99, 132, 0.2)',
+		                'rgba(54, 162, 235, 0.2)',
+		                'rgba(255, 206, 86, 0.2)',
+		                'rgba(75, 192, 192, 0.2)',
+		                'rgba(153, 102, 255, 0.2)',
+		                'rgba(255, 159, 64, 0.2)'
+		            ],
+		            borderColor: [
+		                'rgba(255, 99, 132, 1)',
+		                'rgba(54, 162, 235, 1)',
+		                'rgba(255, 206, 86, 1)',
+		                'rgba(75, 192, 192, 1)',
+		                'rgba(153, 102, 255, 1)',
+		                'rgba(255, 159, 64, 1)'
+		            ],
+		            borderWidth: 1
+				}]
+			},
+			options: {
+		        title: {
+		            display: true,
+		            text: "Q" + (i+1).toString() + " Poll Results"
+		        }
+    }
+
 		});
-		chart.render();
 	}
 }
 
