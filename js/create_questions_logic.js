@@ -10,7 +10,6 @@ function createQuestion()
 {
 	q_count += 1;
 	n_optionArr.push(0);
-	n_optionArr.push(0);
 	var form = document.createElement("form");
 	
 	var span = document.createElement("span");
@@ -43,7 +42,7 @@ function createOption(event)
 	cur_qno_string = event.currentTarget.parentNode.firstChild.innerHTML;
 	// console.log(cur_qno_string);
 	cur_qno = parseInt(cur_qno_string.trim().slice(1));
-	n_optionArr[cur_qno]++;
+	n_optionArr[cur_qno-1]++;
 
 	var newline = document.createElement("br");
 	event.currentTarget.parentNode.appendChild(newline);
@@ -54,7 +53,7 @@ function createOption(event)
 	event.currentTarget.parentNode.appendChild(radio_b);
 
 	var option = document.createElement("input");
-	option.setAttribute("id","O"+(n_optionArr[cur_qno]).toString());
+	option.setAttribute("id","O"+(n_optionArr[cur_qno-1]).toString());
 	option.setAttribute("type","text");
 	event.currentTarget.parentNode.appendChild(option);
 	
@@ -124,8 +123,9 @@ function store_q_o()
 	obj_convert.correct_options = correctOption;
 	
 	// deleting 1st and last position in array as we dont use them. (as their values are 0 anyway).
-	n_optionArr.pop();
-	n_optionArr.shift();
+	// n_optionArr.pop();
+	// n_optionArr.shift();
+	console.log(n_optionArr);
 
 	obj_convert.no_option_arr = n_optionArr;	
 	obj_convert.queCount = q_count;
